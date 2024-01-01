@@ -28,7 +28,6 @@ class Affine:
         return np.dot(x, self.W) + self.B
 
     def backward(self, dz):
-
         self.dB = np.sum(dz, axis=0)
 
         # compute dW
@@ -40,3 +39,24 @@ class Affine:
     def update(self, lr=0.01):
         self.B -= lr * self.dB
         self.W -= lr * self.dW
+
+
+class Relu:
+    def __init__(self):
+        self.masks = None
+
+    def forward(self, x):
+        self.masks = x < 0
+
+        out = x.copy()
+        out[self.masks] = 0
+        return out
+
+    def backward(self, dout):
+        dout[self.masks] = 0
+        dx = dout
+        return dx
+
+    def update(self, lr):
+        # do nothing
+        pass

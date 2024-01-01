@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from affine import Affine
+from layers import Affine
 
 
 class TestAffine(unittest.TestCase):
