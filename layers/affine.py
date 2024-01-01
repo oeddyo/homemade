@@ -16,7 +16,7 @@ class Affine:
     def forward(self, x):
         self.X = x
 
-        # lazy initilization
+        # lazy initialization
         if self.W is None:
             self.W = np.random.rand(x.shape[1], self.nout)
             self.B = np.random.rand(self.nout)
