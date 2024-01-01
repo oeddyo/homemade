@@ -3,10 +3,6 @@ import numpy as np
 from affine import Affine
 
 
-def get_loss_gradient(r, target):
-    return 2 * (r - target)
-
-
 class TestAffine(unittest.TestCase):
     def test_forward_shape(self):
         layer = Affine(5)
@@ -51,3 +47,31 @@ class TestAffine(unittest.TestCase):
 
             numeric_gradient = (loss_h - loss) / h
             self.assertAlmostEqual(numeric_gradient, layer.dB[i], places=3)
+
+    def test_update_function(self):
+        layer = Affine(1)
+        x = np.random.rand(3, 2)
+        y = np.random.rand(3, 1)
+
+        # Initial forward pass
+        forward_res = layer.forward(x)
+
+        # Compute the gradient of the loss
+        loss_gradient = 2 * (forward_res - y)
+        layer.backward(loss_gradient)
+
+        # Store initial weights and biases
+        initial_W = np.copy(layer.W)
+        initial_B = np.copy(layer.B)
+
+        # Update weights and biases
+        lr = 0.01
+        layer.update(lr)
+
+        # Calculate expected new weights and biases
+        expected_new_W = initial_W - lr * layer.dW
+        expected_new_B = initial_B - lr * layer.dB
+
+        # Check if the weights and biases have been updated as expected
+        np.testing.assert_array_almost_equal(layer.W, expected_new_W, decimal=5)
+        np.testing.assert_array_almost_equal(layer.B, expected_new_B, decimal=5)
