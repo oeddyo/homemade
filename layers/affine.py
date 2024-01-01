@@ -18,8 +18,12 @@ class Affine:
 
         # lazy initialization
         if self.W is None:
-            self.W = np.random.rand(x.shape[1], self.nout)
-            self.B = np.random.rand(self.nout)
+            nin = x.shape[1]
+            # Xavier initialization
+            std = np.sqrt(2.0 / (nin + self.nout))
+            self.W = np.random.randn(nin, self.nout) * std
+            # Zero initialization for biases
+            self.B = np.zeros(self.nout)
 
         return np.dot(x, self.W) + self.B
 
