@@ -34,4 +34,5 @@ class Model:
                     layer.update(lr)
 
             print("now loss = ", loss, ' accuracy = ', correctly_classified * 1.0 / n_data)
+            print("gradient of first layer", self.layers[2].W)
 
