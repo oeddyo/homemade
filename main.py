@@ -1,17 +1,28 @@
-# This is a sample Python script.
-
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
 import numpy as np
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+class AffineLayer:
+    def __init__(self, nin=10, nout=10):
+        self.w = np.random.rand(nout, nin)
+        self.b = np.random.rand(nout, 1)
+        self.x = None
+
+    # x has to be (nin, 1)
+    def forward(self, x):
+        self.x = x
+        return np.dot(self.w, x) + self.b
+
+    # dy's shape is (nout, 1)
+    def backward(self, dy):
+        dw = np.dot(dy, self.x.T)
+        dx =
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+        self.db = dy
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
+
+
+layer = AffineLayer(nin=3, nout=5)
+
+print(layer.forward(np.random.rand(3, 1)))
