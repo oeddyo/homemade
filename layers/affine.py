@@ -33,4 +33,6 @@ class Affine:
 
         return self.dX
 
-
+    def update(self, lr=0.01):
+        self.B -= lr * self.dB
+        self.W -= lr * self.dW
