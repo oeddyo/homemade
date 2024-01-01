@@ -24,13 +24,10 @@ class Model:
                 x_train = x[idx]
                 y_train = y[idx]
 
-                print("x_train = ", x_train.shape)
                 pred = self.predict(x_train)
-
                 loss = np.sum((y_train - pred) ** 2) / len(idx)
-                print("now loss = ", loss)
-                print("pred shape = ", pred.shape)
-                print("target shape = ", y_train.shape)
+                print("now loss = ", loss, ' accuracy = ', np.sum((pred > 0.5) == y_train) / y_train.shape[0])
+
 
                 L = 2 * (pred - y_train)
                 for layer in self.layers[::-1]:
