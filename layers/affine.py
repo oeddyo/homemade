@@ -6,10 +6,14 @@ class Affine:
         self.W = None
         self.B = None
         self.X = None
+
+        self.dW = None
+        self.dB = None
+        self.dX = None
+
         self.nout = nout
 
     def forward(self, x):
-
         self.X = x
 
         # lazy initilization
@@ -19,8 +23,14 @@ class Affine:
 
         return np.dot(x, self.W) + self.B
 
+    def backward(self, dz):
 
-layer = Affine(5)
+        self.dB = np.sum(dz, axis=0)
 
-print(layer.forward(np.random.rand(3, 2)))
+        # compute dW
+        self.dW = np.dot(self.X.T, dz)
+        self.dX = np.dot(dz, self.W.T)
+
+        return self.dX
+
 
