@@ -24,15 +24,15 @@ class Model:
                 y_train = y[idx]
 
                 pred = self.predict(x_train)
-                loss = np.sum((y_train - pred) ** 2) / len(idx)
+
+                loss = -np.mean(y_train * np.log(pred + 1e-15) + (1 - y_train) * np.log(1 - pred + 1e-15))
                 correctly_classified += np.sum((pred > 0.5) == y_train)
 
-                L = 2 * (pred - y_train)
+                L = pred - y_train
+
                 for layer in self.layers[::-1]:
                     L = layer.backward(L)
                 for layer in self.layers:
                     layer.update(lr)
 
             print("now loss = ", loss, ' accuracy = ', correctly_classified * 1.0 / n_data)
-            print("gradient of first layer", self.layers[2].W)
-
